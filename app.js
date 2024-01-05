@@ -17,4 +17,8 @@ app.use(bodyParser.json());
 app.use("/doa", doaRoute);
 app.use("/user", userRoute);
 
-module.exports = app;
+// module.exports = app;
+
+app.listen(3000, () => {
+    console.log("Server up and running");
+})
