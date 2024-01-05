@@ -3,13 +3,6 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
-
-// app.get("/blog", (req, res) => {
-//   res.send("Hello Blog!");
-// });
 const doaRoute = require("./routes/doa");
 const userRoute = require("./routes/user");
 
