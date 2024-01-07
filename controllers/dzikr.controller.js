@@ -2,24 +2,24 @@ const Validator = require("fastest-validator");
 const models = require("../models");
 
 function save(req, res) {
-  const doas = {
-    doa: req.body.doa,
+  const dzikrs = {
+    dzikr: req.body.dzikr,
     ayat: req.body.ayat,
     latin: req.body.latin,
     terjemah: req.body.terjemah,
-    doaTypeID: req.body.doaTypeID,
+    dzikrTypeID: req.body.dzikrTypeID,
   };
 
   const schema = {
-    doa: { type: "string", optional: false, max: "100" },
-    ayat: { type: "string", optional: false, max: "1000" },
-    latin: { type: "string", optional: false, max: "1000" },
-    terjemah: { type: "string", optional: false, max: "1000" },
-    doaTypeID: { type: "number", optional: false, max: "5" },
+    dzikr: { type: "string", optional: false, max: "100" },
+    ayat: { type: "string", optional: true, max: "1000" },
+    latin: { type: "string", optional: true, max: "1000" },
+    terjemah: { type: "string", optional: true, max: "1000" },
+    dzikrTypeID: { type: "number", optional: false, max: "10" },
   };
 
   const v = new Validator();
-  const validationResponse = v.validate(doas, schema);
+  const validationResponse = v.validate(dzikrs, schema);
 
   if (validationResponse !== true) {
     return res.status(400).json({
@@ -28,13 +28,13 @@ function save(req, res) {
     });
   }
 
-  models.DoaType.findByPk(req.body.doaTypeID).then((result) => {
+  models.DzikrType.findByPk(req.body.dzikrTypeID).then((result) => {
     if (result !== null) {
-      models.Doa.create(doas)
+      models.Dzikr.create(dzikrs)
         .then((result) => {
           res.status(201).json({
-            message: "Doa added successfully",
-            doas: result,
+            message: "Dzikr added successfully",
+            dzikrs: result,
           });
         })
         .catch((error) => {
@@ -54,7 +54,7 @@ function save(req, res) {
 function show(req, res) {
   const id = req.params.id;
 
-  models.Doa.findByPk(id)
+  models.Dzikr.findByPk(id)
     .then((result) => {
       res.status(200).json(result);
     })
@@ -66,7 +66,7 @@ function show(req, res) {
 }
 
 function index(req, res) {
-  models.Doa.findAll()
+  models.Dzikr.findAll()
     .then((result) => {
       res.status(200).json(result);
     })
@@ -81,19 +81,19 @@ function index(req, res) {
 function update(req, res) {
   const id = req.params.id;
   const updatedDoas = {
-    doa: req.body.doa,
+    dzikr: req.body.dzikr,
     ayat: req.body.ayat,
     latin: req.body.latin,
     terjemah: req.body.terjemah,
-    doaTypeID: req.body.doaTypeID,
+    dzikrTypeID: req.body.dzikrTypeID,
   };
 
   const schema = {
-    doa: { type: "string", optional: false, max: "100" },
+    dzikr: { type: "string", optional: false, max: "100" },
     ayat: { type: "string", optional: false, max: "1000" },
     latin: { type: "string", optional: false, max: "1000" },
     terjemah: { type: "string", optional: false, max: "1000" },
-    doaTypeID: { type: "number", optional: false, max: "5" },
+    dzikrTypeID: { type: "number", optional: false, max: "10" },
   };
 
   const v = new Validator();
@@ -106,11 +106,11 @@ function update(req, res) {
     });
   }
 
-  models.Doa.update(updatedDoas, { where: { id: id } })
+  models.Dzikr.update(updatedDoas, { where: { id: id } })
     .then((result) => {
       res.status(200).json({
-        message: "Doa updated successfully",
-        doas: updatedDoas,
+        message: "Dzikr updated successfully",
+        dzikrs: updatedDoas,
       });
     })
     .catch((error) => {
@@ -124,10 +124,10 @@ function update(req, res) {
 function destroy(req, res) {
   const id = req.params.id;
 
-  models.Doa.destroy({ where: { id: id } })
+  models.Dzikr.destroy({ where: { id: id } })
     .then((result) => {
       res.status(200).json({
-        message: "Doa deleted successfully",
+        message: "Dzikr deleted successfully",
       });
     })
     .catch((error) => {

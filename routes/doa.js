@@ -1,6 +1,6 @@
-const express = require('express');
-const doaController = require('../controllers/doa.controller');
-const checkAuthMiddleware = require('../middleware/check-auth');
+const express = require("express");
+const doaController = require("../controllers/doa.controller");
+const checkAuthMiddleware = require("../middleware/check-auth");
 
 const router = express.Router();
 
